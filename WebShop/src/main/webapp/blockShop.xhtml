@@ -12,13 +12,17 @@
         <p:panel>
             <h1>Block Shop</h1>
         </p:panel>
-        
+
         <h:form>
             <p:dataGrid value="#{blockShop.blocksInShop}" var="blockInShop"
                         rows="12" columns="3" rowsPerPageTemplate="6,9,12">
-                <p:outputLabel value="{#blockInShop.rodzaj}"/>
-                <p:outputLabel value="0"/>
-                <p:commandButton />
+                <p:panel style="text-align:center">
+                    <h:panelGrid columns="1" style="width:100%">
+                        <p:outputLabel value="Rodzaj: #{blockInShop.rodzaj}"/>
+                        <p:outputLabel value="Ilosc: #{blockInShop.amount}"/>
+                        <p:commandButton value="Kup"/>
+                    </h:panelGrid>
+                </p:panel>
             </p:dataGrid>
         </h:form>
     </h:body>
