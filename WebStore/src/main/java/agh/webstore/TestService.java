@@ -18,7 +18,8 @@ public class TestService {
 	public Response getMsg(@PathParam("param") String msg) {
 		String output = "Test msg : " + msg;
                 StoreDb db = new StoreDb();
-                db.utworzPrzykladoweDane();
+                db.zmniejszO1LiczbeKlockow("podluzny");
+                db.zmniejszO1LiczbeKlockow("podluzny");
                 db.closeConnection();
 		return Response.status(200).entity(output).build();
  
