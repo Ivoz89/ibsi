@@ -3,7 +3,8 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Block Shop</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -13,14 +14,16 @@
             <h1>Block Shop</h1>
         </p:panel>
 
-        <h:form>
+        <h:form id="block_form">
             <p:dataGrid value="#{blockShop.blocksInShop}" var="blockInShop"
                         rows="12" columns="3" rowsPerPageTemplate="6,9,12">
                 <p:panel style="text-align:center">
                     <h:panelGrid columns="1" style="width:100%">
                         <p:outputLabel value="Rodzaj: #{blockInShop.rodzaj}"/>
                         <p:outputLabel value="Ilosc: #{blockInShop.amount}"/>
-                        <p:commandButton value="Kup"/>
+                        <p:commandButton value="Kup" action="#{blockShop.buyBlock(blockInShop)}">
+                            <f:ajax render="block_form"/>
+                        </p:commandButton>
                     </h:panelGrid>
                 </p:panel>
             </p:dataGrid>

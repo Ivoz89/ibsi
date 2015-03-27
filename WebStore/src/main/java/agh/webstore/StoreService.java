@@ -20,6 +20,9 @@ import javax.ws.rs.core.Response;
 public class StoreService {
 
     private StoreDb db = new StoreDb();
+    private final static int LICZBA_KLOCKOW = 10;
+    private final static int BRAK_KLOCKOW = 0;
+    private final static int DODAJ_KLOCKI = 40;
 
     @GET
     @Path("/{param}")
@@ -27,10 +30,12 @@ public class StoreService {
         boolean b = db.zmniejszO1LiczbeKlockow(rodzaj);
         String output;
         if(b){
-            output = "Pobrano klocki : " + rodzaj + " aktualna liczba wszystkich : " + db.pobierzIloscKlockow(rodzaj);
+            output =  Integer.toString(LICZBA_KLOCKOW);
         }
-        else
-            output = "Za malo klockow w magazynie - nie mozna pobrac!";
+        else {
+            output = Integer.toString(BRAK_KLOCKOW);
+            db.zmienIloscWMagazynie(rodzaj, DODAJ_KLOCKI);
+        }
         
         return Response.status(200).entity(output).build();
 

@@ -4,8 +4,6 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import java.io.Serializable;
-import java.util.List;
-import mistrzowie.model.Klocek;
 import mistrzowie.shop.logic.api.IStoreService;
 
 /**
@@ -26,8 +24,7 @@ public class RESTStoreService implements IStoreService, Serializable {
                 .get(ClientResponse.class);
         
         String output = response.getEntity(String.class);
-        System.out.println(output);
-        return 0;
+        return Integer.parseInt(output);
     }
     
 }
