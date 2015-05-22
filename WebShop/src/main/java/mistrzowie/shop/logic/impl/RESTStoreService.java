@@ -12,7 +12,12 @@ import mistrzowie.shop.logic.api.IStoreService;
  */
 public class RESTStoreService implements IStoreService, Serializable {
     
-    private static final String baseRestUrl = "http://localhost:8080/WebStore/rest/";
+    private static String baseRestUrl = "http://localhost:8080/WebStore/rest/";
+    
+    public RESTStoreService() {
+        PropertiesUtil propMgr = new PropertiesUtil("rest-config.properties");
+        baseRestUrl = propMgr.getProperty("rest.url");
+    }
 
     @Override
     public int getBlocksFromStore(String blockType) {

@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import mistrzowie.model.Klocek;
 import mistrzowie.shop.logic.api.IStoreService;
-import org.primefaces.context.RequestContext;
 
 /**
  *

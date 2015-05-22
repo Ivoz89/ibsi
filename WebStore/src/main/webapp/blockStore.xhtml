@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Block Store</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <p:panel>
+            <h1>Block Store</h1>
+        </p:panel>
+
+        <h:form id="block_form">
+            <p:dataGrid value="#{blockStore.blocksInStore}" var="blockInStore"
+                        rows="12" columns="3" rowsPerPageTemplate="6,9,12">
+                <p:panel style="text-align:center">
+                    <h:panelGrid columns="1" style="width:100%">
+                        <p:outputLabel value="Rodzaj: #{blockInStore.rodzaj}"/>
+                        <p:outputLabel value="Ilosc: #{blockInStore.amount}"/>
+                        <p:commandButton value="Wyprodukuj" action="#{blockStore.addBlock(blockInStore)}">
+<!--                            <f:ajax render="block_form"/>-->
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:panel>
+            </p:dataGrid>
+        </h:form>
+    </h:body>
+</html>
