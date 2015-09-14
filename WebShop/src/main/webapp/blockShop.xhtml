@@ -19,10 +19,9 @@
                         rows="12" columns="3" rowsPerPageTemplate="6,9,12">
                 <p:panel style="text-align:center">
                     <h:panelGrid columns="1" style="width:100%">
-                        <p:outputLabel value="Rodzaj: #{blockInShop.rodzaj}"/>
+                        <p:outputLabel value="Rodzaj: #{blockInShop.name}"/>
                         <p:outputLabel value="Ilosc: #{blockInShop.amount}"/>
                         <p:commandButton value="Kup" action="#{blockShop.buyBlock(blockInShop)}">
-                            <f:ajax render="block_form"/>
                         </p:commandButton>
                     </h:panelGrid>
                 </p:panel>

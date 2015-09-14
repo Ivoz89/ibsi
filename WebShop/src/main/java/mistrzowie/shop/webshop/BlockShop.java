@@ -3,11 +3,19 @@ package mistrzowie.shop.webshop;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.jms.JMSException;
 import mistrzowie.model.Klocek;
+import mistrzowie.shop.dao.ItemDao;
+import mistrzowie.shop.dao.ItemEntity;
 import mistrzowie.shop.logic.api.IStoreService;
+import mistrzowie.shop.logic.impl.JMSStoreService;
 
 /**
  *
@@ -17,34 +25,53 @@ import mistrzowie.shop.logic.api.IStoreService;
 @SessionScoped
 public class BlockShop implements Serializable {
 
-    private List<Block> blocksInShop;
+    private List<ItemEntity> blocksInShop;
+    
+    @EJB
+    private ItemDao dao;
 
     @Inject
     private IStoreService storeService;
-
+    
+    @EJB
+    private JMSStoreService jms;
+    
     public BlockShop() {
+        
+    }
+    
+    @PostConstruct
+    public void init() {
         blocksInShop = new ArrayList<>();
-        blocksInShop.add(new Block(new Klocek("podluzny")));
-        blocksInShop.add(new Block(new Klocek("kwadratowy")));
-        blocksInShop.get(0).setAmount(35);
-        blocksInShop.get(1).setAmount(35);
+        ItemEntity entity1 = new ItemEntity();
+        entity1.setName("Frytki");
+        entity1.setAmount(15);
+        entity1 = dao.insert(entity1);
+        
+        blocksInShop.add(entity1);
     }
 
-    public List<Block> getBlocksInShop() {
+    public List<ItemEntity> getBlocksInShop() {
         return blocksInShop;
     }
 
-    public void setBlocksInShop(List<Block> blocksInShop) {
+    public void setBlocksInShop(List<ItemEntity> blocksInShop) {
         this.blocksInShop = blocksInShop;
     }
 
-    public void buyBlock(Block block) {
-        int storeAmount = 0;
-        if (block.getAmount() < 25) {
-            storeAmount = storeService.getBlocksFromStore(block.getRodzaj());
+    public String buyBlock(ItemEntity block) {
+        ItemEntity blockTmp = dao.findByName(block.getName());
+        if (blockTmp.getAmount() != block.getAmount()) {
+            block.setAmount(blockTmp.getAmount());
         }
-        if (block.getAmount() > 0) {
-            block.setAmount(block.getAmount() - 1 + storeAmount);
+        if(block.getAmount() < 20) {
+            //TODO dorobic jms
+            jms.send(block);
         }
+        if(block.getAmount() > 0) {
+            block.setAmount(block.getAmount() - 1);
+            dao.update(block);
+        }
+        return null;
     }
 }
